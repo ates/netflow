@@ -1,8 +1,8 @@
-Netflow protocols decoder/encoder
+Netflow protocol decoder/encoder
 =================================
 
-Supported versions:
--------------------
+Supported versions
+------------------
 
  * Netflow v5
  * Netflow v9
