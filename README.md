@@ -1,11 +1,11 @@
-Netflow protocol decoder/encoder
+NetFlow protocol decoder/encoder
 =================================
 
 Supported versions
 ------------------
 
- * Netflow v5
- * Netflow v9
+ * NetFlow v5
+ * NetFlow v9
 
 License
 -------

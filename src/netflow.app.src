@@ -1,5 +1,5 @@
 {application, netflow, [
-    {description, "Netflow decoder/encoder"},
+    {description, "NetFlow decoder/encoder"},
     {vsn, "0.0.1"},
     {applications, [kernel, stdlib]}
 ]}.
