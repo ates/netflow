@@ -4,7 +4,7 @@ ERL = erl
 REBAR = rebar
 DIALYZER = dialyzer
 
-.PHONY: deps
+.PHONY: deps doc test
 
 compile:
 	@$(REBAR) compile
@@ -14,6 +14,9 @@ clean:
 
 test: clean compile
 	@$(REBAR) xref eunit
+
+doc:
+	@$(REBAR) doc
 
 build-plt:
 	@$(LIBS) $(DIALYZER) --build_plt --output_plt $(PROJECT).plt \
