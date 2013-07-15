@@ -305,4 +305,18 @@ typecast_field(Bin, Type, _) ->
 encode_field('IPV4_SRC_ADDR', {A, B, C, D}) ->
     {<<A, B, C, D>>, 8, 4};
 encode_field('L4_SRC_PORT', Value) ->
-    {<<Value:16>>, 7, 2}.
+    {<<Value:16>>, 7, 2};
+encode_field(natInsideGlobalAddress, {A, B, C, D}) ->
+    {<<A, B, C, D>>, 225, 4};
+encode_field(natOutsideGlobalAddress, {A, B, C, D}) ->
+    {<<A, B, C, D>>, 226, 4};
+encode_field(postNAPTSourceTransportPort, Value) ->
+    {<<Value:16>>, 227, 2};
+encode_field(postNAPTDestinationTransportPort, Value) ->
+    {<<Value:16>>, 228, 2};
+encode_field(ingressVRFID, Value) ->
+    {<<Value:32>>, 234, 4};
+encode_field(natEvent, Value) ->
+    {<<Value:8>>, 230, 1};
+encode_field(observationTime, Value) ->
+    {<<Value:64/integer>>, 323, 8}.
