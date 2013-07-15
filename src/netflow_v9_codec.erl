@@ -1,7 +1,9 @@
 -module(netflow_v9_codec).
 
 %% API
--export([init/0, decode/2]).
+-export([init/0]).
+-export([decode/2]).
+-export([encode/6]).
 
 -include("netflow_v9.hrl").
 
@@ -28,6 +30,45 @@ decode(Binary, IP) ->
         _:Reason ->
             {error, Reason}
     end.
+
+encode(SysUptime, UnixSecs, FlowSeq, SourceId, TemplateId, Records) ->
+    Count = length(Records),
+    Header = <<
+        9:16,
+        (Count + 1):16,
+        SysUptime:32,
+        UnixSecs:32,
+        FlowSeq:32,
+        SourceId:32
+    >>,
+    TemplateFields = encode_template_fields(Records, []),
+    Template = <<
+        0:16,                               % FlowSet ID, 0 for template
+        (byte_size(TemplateFields) + 8):16, % Length
+        TemplateId:16,                      % Template ID, should be > 255
+        Count:16,                           % Count
+        TemplateFields/binary               % Fields
+    >>,
+    Fields = encode_fields(Records),
+    FieldsSize = byte_size(Fields),
+    DataFlowset = case (FieldsSize + 4) rem 4 of
+        0 ->
+            <<TemplateId:16, (FieldsSize + 4):16, Fields/binary>>;
+        N ->
+            Padding = <<0:(N * 8)>>,
+            <<TemplateId:16, (FieldsSize + 4 + N):16, Fields/binary, Padding/binary>>
+    end,
+    list_to_binary([Header, Template, DataFlowset]).
+
+encode_fields(Fields) ->
+    Encoded = [Data || {Data, _, _} <- [encode_field(F, V) || {F, V} <- Fields]],
+    list_to_binary(Encoded).
+
+encode_template_fields([], Acc) ->
+    list_to_binary(lists:reverse(Acc));
+encode_template_fields([{Field, Value} | Rest], Acc) ->
+    {_Data, Type, Length} = encode_field(Field, Value),
+    encode_template_fields(Rest, [<<Type:16, Length:16>> | Acc]).
 
 %% Internal functions
 decode_packet(<<?NF_V9_HEADER_FORMAT, Rest/binary>>, IP) ->
@@ -260,3 +301,8 @@ typecast_field(<<Value:64/integer>>, 323, 8) ->
     {observationTime, Value};
 typecast_field(Bin, Type, _) ->
     {Type, Bin}.
+
+encode_field('IPV4_SRC_ADDR', {A, B, C, D}) ->
+    {<<A, B, C, D>>, 8, 4};
+encode_field('L4_SRC_PORT', Value) ->
+    {<<Value:16>>, 7, 2}.
