@@ -60,6 +60,7 @@ encode(SysUptime, UnixSecs, FlowSeq, SourceId, TemplateId, Records) ->
     end,
     list_to_binary([Header, Template, DataFlowset]).
 
+%% Internal functions
 encode_fields(Fields) ->
     Encoded = [Data || {Data, _, _} <- [encode_field(F, V) || {F, V} <- Fields]],
     list_to_binary(Encoded).
@@ -70,7 +71,6 @@ encode_template_fields([{Field, Value} | Rest], Acc) ->
     {_Data, Type, Length} = encode_field(Field, Value),
     encode_template_fields(Rest, [<<Type:16, Length:16>> | Acc]).
 
-%% Internal functions
 decode_packet(<<?NF_V9_HEADER_FORMAT, Rest/binary>>, IP) ->
     Header = #nfh_v9{
         version = Version,
