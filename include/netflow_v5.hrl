@@ -12,15 +12,15 @@
 ).
 
 -record(nfh_v5, {
-    version             :: 5,
-    count               :: 1..30,
-    sys_uptime          :: non_neg_integer(),
-    unix_secs           :: non_neg_integer(),
-    unix_nsecs          :: non_neg_integer(),
-    flow_seq            :: non_neg_integer(),
-    engine_type         :: 0..255,
-    engine_id           :: 0..255,
-    sampling_interval   :: non_neg_integer()
+    version           :: 5,
+    count             :: 1..30,
+    sys_uptime        :: non_neg_integer(),
+    unix_secs         :: non_neg_integer(),
+    unix_nsecs        :: non_neg_integer(),
+    flow_seq          :: non_neg_integer(),
+    engine_type       :: 0..255,
+    engine_id         :: 0..255,
+    sampling_interval :: non_neg_integer()
 }).
 
 %% NetFlow record Version 5 (V5)
@@ -47,7 +47,8 @@
     Pad2:16
 ).
 
--record(nfrec_v5, {src_addr :: non_neg_integer(),
+-record(nfrec_v5, {
+    src_addr    :: non_neg_integer(),
     dst_addr    :: non_neg_integer(),
     next_hop    :: non_neg_integer(),
     input       :: pos_integer(),
