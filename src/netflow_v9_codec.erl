@@ -306,6 +306,12 @@ encode_field('IPV4_SRC_ADDR', {A, B, C, D}) ->
     {<<A, B, C, D>>, 8, 4};
 encode_field('L4_SRC_PORT', Value) ->
     {<<Value:16>>, 7, 2};
+encode_field('IPV4_DST_ADDR', {A, B, C, D}) ->
+    {<<A, B, C, D>>, 12, 4};
+encode_field('L4_DST_PORT', Value) ->
+    {<<Value:16>>, 11, 2};
+encode_field('PROTOCOL', Value) ->
+    {<<Value:8>>, 4, 1};
 encode_field(natInsideGlobalAddress, {A, B, C, D}) ->
     {<<A, B, C, D>>, 225, 4};
 encode_field(natOutsideGlobalAddress, {A, B, C, D}) ->
