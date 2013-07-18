@@ -15,7 +15,7 @@ decode(Bin) ->
             {error, Reason}
     end.
 
-%% @doc Encodes the records back to binary
+%% @doc Encodes the records back to binary.
 -spec encode({#nfh_v5{}, #nfrec_v5{}}) -> {ok, binary()} | {error, term()}.
 encode(Record) ->
     try
@@ -71,7 +71,7 @@ decode_records(<<?NF_V5_RECORD_FORMAT, Rest/binary>>, List) ->
 encode_packet({Header, Records}) ->
     {nfh_v5, Version, Count, SysUptime, 
         UnixSecs, UnixNsecs, FlowSequence, 
-        EngineType,EngineID, SamplingInterval} = Header,
+        EngineType, EngineID, SamplingInterval} = Header,
     Rec = list_to_binary([encode_record(R) || R <- Records]),
     {ok, <<?NF_V5_HEADER_FORMAT, Rec/binary>>}.
 
