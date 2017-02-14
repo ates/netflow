@@ -1,4 +1,7 @@
+*~
 doc
 ebin
 .eunit
 netflow.plt
+test-log
+test/*beam
