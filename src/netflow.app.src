@@ -1,6 +1,6 @@
 {application, netflow, [
     {description, "NetFlow/IPFIX decoder/encoder"},
-    {vsn, "0.0.1"},
+    {vsn, "1.0.0"},
     {applications, [kernel, stdlib]},
     {maintainers, ["Artem Teslenko"]},
     {licenses, ["MIT"]},
