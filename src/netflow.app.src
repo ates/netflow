@@ -1,5 +1,10 @@
 {application, netflow, [
     {description, "NetFlow/IPFIX decoder/encoder"},
     {vsn, "0.0.1"},
-    {applications, [kernel, stdlib]}
+    {applications, [kernel, stdlib]},
+    {maintainers, ["Artem Teslenko"]},
+    {licenses, ["MIT"]},
+    {links, [
+        {"Github", "https://github.com/ates/netflow"}
+    ]}
 ]}.
