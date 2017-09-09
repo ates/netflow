@@ -1,9 +1,17 @@
 -module(ipfix_v10_codec_SUITE).
 
--compile(export_all).
+%% ct callbacks
+-export([all/0]).
+-export([init_per_testcase/2]).
 
+%% test cases
+-export([decode_test/1]).
+-export([encode_test/1]).
+-export([redecode_test/1]).
+-export([reencode_test/1]).
+
+-include("ipfix_v10.hrl").
 -include_lib("common_test/include/ct.hrl").
--include("../include/ipfix_v10.hrl").
 
 -define(equal(Expected, Actual),
     (fun (Expected@@@, Expected@@@) -> true;
