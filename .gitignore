@@ -5,3 +5,4 @@ ebin
 netflow.plt
 test-log
 test/*beam
+_build

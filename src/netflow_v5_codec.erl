@@ -75,7 +75,7 @@ encode({Header, Records}) ->
     {ok, <<?NF_V5_HEADER_FORMAT, Rec/binary>>}.
 
 %% Internal functions
-decode_records(<<?NF_V5_RECORD_FORMAT, Rest/binary>>, List) ->
+decode_records(<<?NF_V5_RECORD_FORMAT, Rest/binary>>, Acc) ->
     Record = #nfrec_v5{
         src_addr  = SrcAddr,
         dst_addr  = DstAddr,
@@ -98,9 +98,9 @@ decode_records(<<?NF_V5_RECORD_FORMAT, Rest/binary>>, List) ->
         dst_mask  = DstMask,
         pad2      = Pad2
     },
-    decode_records(Rest, [Record | List]);
-decode_records(<<>>, List) ->
-	lists:reverse(List).
+    decode_records(Rest, [Record | Acc]);
+decode_records(<<>>, Acc) ->
+	lists:reverse(Acc).
 
 encode_record(Record) ->
     #nfrec_v5{
